@@ -23,17 +23,7 @@ class InlineCssNode(template.Node):
             path = expression.resolve(context, True)
             if path is not None:
                 path = smart_unicode(path)
-            if settings.DEBUG:
-                expanded_path = finders.find(path)
-            else:
-                expanded_path = staticfiles_storage.path(path)
-
-            if staticfiles_storage.exists(expanded_path) is False:
-                #
-                # not found in static, try in default_storage
-                #
-                if default_storage.exists(path) is True:
-                    expanded_path = default_storage.open(path).name
+            expanded_path = finders.find(path)
 
             with open(expanded_path) as css_file:
                 css = ''.join((css, css_file.read()))
